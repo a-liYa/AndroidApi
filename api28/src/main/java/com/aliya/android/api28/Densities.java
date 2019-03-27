@@ -18,9 +18,9 @@ public class Densities {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             Resources resources = base.getResources();
             Configuration config = resources.getConfiguration();
-            final int density = matchFitDensityDpi();
-            if (config.densityDpi != density) {
-                config.densityDpi = density;
+            final int dpi = matchFitDensityDpi();
+            if (config.densityDpi != dpi) {
+                config.densityDpi = dpi;
                 base = base.createConfigurationContext(config);
             }
         }
@@ -28,20 +28,18 @@ public class Densities {
     }
 
     public static Resources forceDensityDpiByResources(Resources resources) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Configuration config = resources.getConfiguration();
-            final int dpi = matchFitDensityDpi();
-            /**
-             *  0.8   0.9  1.0  1.1  1.2  1.35  1.5
-             *   |    |     |    |    |    ｜　　｜
-             * 极小   特小   小　  中   大   特大  超大
-             */
-            // 在这里设置字号 config.fontScale =
+        Configuration config = resources.getConfiguration();
+        /**
+         *  0.8   0.9  1.0  1.1  1.2  1.35  1.5
+         *   |    |     |    |    |    ｜　　｜
+         * 极小   特小   小　  中   大   特大  超大
+         */
+        // 在这里设置字号 config.fontScale =
 
-            if (config.densityDpi != dpi) {
-                config.densityDpi = dpi;
-                resources.updateConfiguration(config, resources.getDisplayMetrics());
-            }
+        final int dpi = matchFitDensityDpi();
+        if (config.densityDpi != dpi) {
+            config.densityDpi = dpi;
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
         }
         return resources;
     }
@@ -86,12 +84,12 @@ public class Densities {
     }
 
     private enum DpiEntity {
-        L(240, 320, 120, 0.75f),
-        M(320, 480, 160, 1f),
-        H(480, 800, 240, 1.5f),
-        XH(720, 1280, 320, 2f),
-        XXH(1080, 1920, 480, 3f),
-        XXXH(1440, 2560, 560, 3.5f);
+        L(240, 320, DisplayMetrics.DENSITY_LOW, 0.75f),
+        M(320, 480, DisplayMetrics.DENSITY_MEDIUM, 1f),
+        H(480, 800, DisplayMetrics.DENSITY_HIGH, 1.5f),
+        XH(720, 1280, DisplayMetrics.DENSITY_XHIGH, 2f),
+        XXH(1080, 1920, DisplayMetrics.DENSITY_XXHIGH, 3f),
+        XXXH(1440, 2560, DisplayMetrics.DENSITY_XXXHIGH, 4f);
 
         private int width;
         private int height;
