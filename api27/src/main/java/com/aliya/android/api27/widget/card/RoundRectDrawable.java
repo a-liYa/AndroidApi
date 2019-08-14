@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Outline;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -29,6 +30,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import static com.aliya.android.api27.widget.card.RoundRectDrawableWithShadow.calculateHorizontalPadding;
 import static com.aliya.android.api27.widget.card.RoundRectDrawableWithShadow.calculateVerticalPadding;
@@ -96,8 +98,7 @@ class RoundRectDrawable extends Drawable {
         } else {
             clearColorFilter = false;
         }
-
-        canvas.drawRoundRect(mBoundsF, mRadius, mRadius, paint);
+        canvas.drawRoundRect(mBoundsF, 0, 0, paint);
 
         if (clearColorFilter) {
             paint.setColorFilter(null);
@@ -125,9 +126,25 @@ class RoundRectDrawable extends Drawable {
         updateBounds(bounds);
     }
 
+    private Path mClipPath = new Path();
+    private float[] radii = new float[8];
+
     @Override
     public void getOutline(Outline outline) {
-        outline.setRoundRect(mBoundsI, mRadius);
+        mClipPath.reset();
+        radii[0] = radii[1] = mRadius / 2;
+        radii[2] = radii[3] = mRadius / 2;
+        radii[4] = radii[5] = mRadius;
+        radii[6] = radii[7] = mRadius;
+        RectF rectF = new RectF(mBoundsF);
+        rectF.right /= 2;
+        rectF.bottom /= 2;
+        mClipPath.addRect(rectF, Path.Direction.CW);
+//        outline.setConvexPath(mClipPath);
+
+
+        outline.setRoundRect(mBoundsI, mRadius / 2);
+        Log.e("TAG", "getOutline: " + mBoundsI + " - " + outline.canClip());
     }
 
     void setRadius(float radius) {
