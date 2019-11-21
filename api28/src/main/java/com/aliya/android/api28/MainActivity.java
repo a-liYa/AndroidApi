@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mWebView = findViewById(R.id.web_view);
-        mWebView.loadUrl("https://mp.weixin.qq.com/s/d9QCoBP6kV9VSWvVldVVwA");
-
+        mWebView.loadUrl("http://t.pae.baidu.com/s?s=bai-xtzvbd");
     }
 
     @Override
