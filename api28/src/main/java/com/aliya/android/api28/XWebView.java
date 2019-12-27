@@ -1,9 +1,11 @@
 package com.aliya.android.api28;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
