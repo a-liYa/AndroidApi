@@ -1,42 +1,29 @@
 package com.aliya.android.api28;
 
-import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebView;
-
-import com.aliya.android.api28.compat.ActivityOrientationCompat;
-import com.aliya.android.api28.compat.DensityHelper;
+import android.view.View;
+import android.widget.HorizontalScrollView;
 
 public class MainActivity extends AppCompatActivity {
 
-    WebView mWebView;
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        final Resources res = newBase.getResources();
-        final Configuration config = res.getConfiguration();
-        config.densityDpi = DensityHelper.matchTheoryDpi(App.sApp);
-        newBase = newBase.createConfigurationContext(config);
-        super.attachBaseContext(newBase);
-    }
+    HorizontalScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActivityOrientationCompat.setRequestedOrientation(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mWebView = findViewById(R.id.web_view);
+        mScrollView = findViewById(R.id.scroll_view);
 
-        mWebView.loadUrl("https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9728797053672044395%22%7D&n_type=0&p_from=1");
+        findViewById(R.id.tv_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mScrollView.setVisibility(
+                        mScrollView.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        startActivity(new Intent(this, RecyclerActivity.class));
     }
 }
