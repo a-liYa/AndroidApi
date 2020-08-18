@@ -2,30 +2,20 @@
 
 buildscript {
     repositories {
-        google()
-        jcenter()
-        
+        apply from: "https://gitee.com/a_liYa/gradleconfig/raw/master/dependency/versions.gradle"
+        addAliyunRepos(repositories)
+        addRepos(repositories)
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-        
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath deps.gradle_plugin
+        classpath deps.novoda_bintray
     }
 }
 
 allprojects {
     repositories {
-        maven {
-            url 'https://maven.aliyun.com/repository/google'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/jcenter'
-        }
-        google()
-        jcenter()
-        jcenter()
-
+        addAliyunRepos(repositories)
+        addRepos(repositories)
     }
 }
 
